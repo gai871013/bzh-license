@@ -1,0 +1,36 @@
+{
+    "name": "gai871013/bzh-license",
+    "type": "library",
+    "description": "授权查询",
+    "authors": [
+        {
+            "name": "王改朝",
+            "email": "wanggaichao@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.3.2 || ^7.0 || ^8.0",
+        "guzzlehttp/guzzle": "^7.2",
+        "ext-openssl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gai871013\\License\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Gai871013\\License\\ServiceProvider"
+            ],
+            "aliases": {
+                "License": "Gai871013\\License\\Facades\\License"
+            }
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    }
+}
