@@ -33,8 +33,7 @@ class AES
      */
     public static function decrypt($sStr, $sKey, string $method = 'AES-256-ECB'): string
     {
-        $decrypted = openssl_decrypt(base64_decode($sStr), $method, $sKey, OPENSSL_RAW_DATA);
-        return $decrypted;
+        return openssl_decrypt(base64_decode($sStr), $method, $sKey, OPENSSL_RAW_DATA);
     }
 
 

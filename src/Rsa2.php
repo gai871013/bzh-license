@@ -89,4 +89,35 @@ class Rsa2
             OPENSSL_ALGO_SHA256
         );
     }
+
+
+    /**
+     * 生成Rsa公钥和私钥
+     * @param string $path
+     * @param int $private_key_bits 建议：[512, 1024, 2048, 4096]
+     * @return array
+     */
+    public static function generate(int $private_key_bits = 1024): array
+    {
+        $rsa = [];
+
+        $config = [
+            "digest_alg"       => OPENSSL_ALGO_SHA256,
+            "private_key_bits" => $private_key_bits, #此处必须为int类型
+            "private_key_type" => OPENSSL_KEYTYPE_RSA,
+        ];
+
+        //创建公钥和私钥
+        $res = openssl_pkey_new($config);
+
+        //提取私钥
+        openssl_pkey_export($res, $rsa['private']);
+
+        $rsa['private'] = str_replace('PRIVATE KEY', 'RSA PRIVATE KEY', $rsa['private']);
+
+        //生成公钥
+        $rsa['public'] = openssl_pkey_get_details($res)["key"];
+        return $rsa;
+    }
+
 }

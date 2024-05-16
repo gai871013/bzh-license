@@ -114,17 +114,26 @@ class License
 
         // 生成AES加密key
         $aes_key = bin2hex(openssl_random_pseudo_bytes(16));
+        $key     = '';
+        for ($i = 0; $i < strlen($aes_key); $i++) {
+            if (random_int(1, 10) % 2 === 0) {
+                $key .= $aes_key[$i];
+            } else {
+                $key .= strtoupper($aes_key[$i]);
+            }
+        }
+        $aes_key = $key;
 
         // 加密信息
         $info = AES::encrypt(json_encode($data, JSON_UNESCAPED_UNICODE), $aes_key);
 
         // 加密信息长度
-        $len = str_pad(dechex(strlen($info)), 3, '0', STR_PAD_LEFT);
+        $len = str_pad(dechex(strlen($info)), 4, '0', STR_PAD_LEFT);
 
         // 签名
         $sign = Rsa2::createSign($info, $private);
 
-        return base64_encode($aes_key . $len . $info . $sign);
+        return ($aes_key . $len . $info . $sign);
     }
 
     /**
@@ -148,17 +157,17 @@ class License
         }
 
         // 原始信息
-        $license = base64_decode($license);
+        // $license = base64_decode($license);
         // 密钥
         $aes_key = substr($license, 0, 32);
         // 加密信息长度
-        $len = hexdec(substr($license, 32, 3));
+        $len = hexdec(substr($license, 32, 4));
 
         // 加密信息
-        $info = substr($license, 35, $len);
+        $info = substr($license, 36, $len);
 
         // 签名
-        $sign = substr($license, 35 + $len);
+        $sign = substr($license, 36 + $len);
 
         try {
             // 验证签名
@@ -176,7 +185,7 @@ class License
         $res = json_decode($origin, true);
 
         // 检测appid是否一致
-        $appid = config('license.appid');
+        $appid        = config('license.appid');
         $res['valid'] = true;
         if ($appid !== $res['appid']) {
             $res['valid'] = false;
@@ -238,15 +247,25 @@ class License
         }
 
         // 无效直接返回临期
-        if(!$license['valid']) {
+        if (!$license['valid']) {
             return true;
         }
 
         // 时间判断
         $time = time();
-        if(strtotime($license['notAfter']) - $day * 86400 < $time) {
+        if (strtotime($license['notAfter']) - $day * 86400 < $time) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 生成Rsa公钥和私钥
+     * @param int $private_key_bits
+     * @return array
+     */
+    public function makeRsa(int $private_key_bits = 1024): array
+    {
+        return Rsa2::generate($private_key_bits);
     }
 }
