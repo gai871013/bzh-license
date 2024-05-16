@@ -1,7 +1,7 @@
 {
     "name": "gai871013/bzh-license",
     "type": "library",
-    "description": "授权查询",
+    "description": "生成&查询授权",
     "authors": [
         {
             "name": "王朝",
