@@ -1,5 +1,9 @@
-# 授权查询
-- 主要功能：查询当前站点授权是否在有效期，并给于提示
+# 授权生成&查询
+- 主要功能
+    - 授权码生成
+    - 查询是授权码
+    - 生成 RSA 公私钥
+- 测试环境：Laravel 8.0+
 - 最后更新时间：2024年05月16日
 
 ## 安装
@@ -51,11 +55,22 @@ dd(License::getLicense('LICENSE_CODE', 'PUBLIC_PEM_CODE'));
 // ...
 
 ```
+## Contributing
+
+You can contribute in one of three ways:
+
+1. File bug reports using the [issue tracker](https://github.com/gai871013/bzh-license/issues).
+2. Answer questions or fix bugs on the [issue tracker](https://github.com/gai871013/bzh-license/issues).
+3. Contribute new features or update the wiki.
+
+_The code contribution process is not very formal. You just need to make sure that you follow the PSR-0, PSR-1, and PSR-2 coding guidelines. Any new code contributions must be accompanied by unit tests where applicable._
 
 
-# LICENSE
-`
-Copyright [gai871013]
+## LICENSE
+Apache License 2.0
+
+
+Copyright [gai871013](https://github.com/gai871013/bzh-license)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -68,4 +83,4 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-`
+
