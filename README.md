@@ -69,7 +69,7 @@ _The code contribution process is not very formal. You just need to make sure th
 ## LICENSE
 Apache License 2.0
 
-
+## Copyright
 Copyright [gai871013](https://github.com/gai871013/bzh-license)
 
 Licensed under the Apache License, Version 2.0 (the "License");
