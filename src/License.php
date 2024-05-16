@@ -97,7 +97,7 @@ class License
     {
         // 必要参数
         $field = config('license.field');
-        if(!is_array($field)) {
+        if (!is_array($field)) {
             throw new InvalidArgumentException("Missing key field");
         }
 
@@ -108,7 +108,7 @@ class License
             }
         }
 
-        if($private === '') {
+        if ($private === '') {
             $private = $this->private;
         }
 
@@ -139,7 +139,7 @@ class License
             throw new InvalidArgumentException('License is empty');
         }
 
-        if($public === '') {
+        if ($public === '') {
             $public = $this->public;
         }
 
@@ -160,10 +160,10 @@ class License
         // 签名
         $sign = substr($license, 35 + $len);
 
-        try{
+        try {
             // 验证签名
             $check = Rsa2::verifySign($info, $sign, $public);
-            if(!$check) {
+            if (!$check) {
                 throw new Exception('授权码无效');
             }
         } catch (Exception $e) {
@@ -173,14 +173,32 @@ class License
         // 解密
         $origin = AES::decrypt($info, $aes_key);
         // 解密后的信息
-        return json_decode($origin, true);
+        $res = json_decode($origin, true);
+
+        // 检测appid是否一致
+        $appid = config('license.appid');
+        $res['valid'] = true;
+        if ($appid !== $res['appid']) {
+            $res['valid'] = false;
+        }
+
+        // 判断是否有效期
+        $time = time();
+        if (strtotime($res['notBefore']) > $time || strtotime($res['notAfter']) < $time) {
+            $res['valid'] = false;
+        }
+        return $res;
     }
 
     /**
-     * @throws InvalidArgumentException
+     * 检测授权是否有效
+     * @param string $license
+     * @param string $public
+     * @return bool
      * @throws Exception
+     * @throws InvalidArgumentException
      */
-    public function checkValid($license = '', $public = ''): bool
+    public function checkValid(string $license = '', string $public = ''): bool
     {
         if (empty($license)) {
             return false;
@@ -193,12 +211,42 @@ class License
             throw new InvalidArgumentException($e->getMessage());
         }
 
-        // 判断是否有效期
-        $time = time();
-        if (strtotime($license['notBefore']) > $time || strtotime($license['notAfter']) < $time) {
-            return false;
-        } else {
+        // 返回
+        return $license['valid'];
+    }
+
+    /**
+     * 授权是否临期
+     * @param string $license
+     * @param int $day 天数
+     * @param string $public
+     * @return bool
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
+    public function checkAlert(string $license = '', int $day = 7, string $public = ''): bool
+    {
+        if (empty($license)) {
             return true;
         }
+        try {
+            $license = $this->getLicense($license, $public);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidArgumentException($e->getMessage());
+        }
+
+        // 无效直接返回临期
+        if(!$license['valid']) {
+            return true;
+        }
+
+        // 时间判断
+        $time = time();
+        if(strtotime($license['notAfter']) - $day * 86400 < $time) {
+            return true;
+        }
+        return false;
     }
 }
