@@ -2,6 +2,7 @@
     "name": "gai871013/bzh-license",
     "type": "library",
     "description": "生成&查询授权",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "王朝",
