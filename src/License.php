@@ -23,13 +23,13 @@ class License
         if ($private) {
             $this->private = $private;
         } else {
-            $this->private = config("license.private");
+            $this->private = config("license.private", '');
         }
 
         if ($public) {
             $this->public = $public;
         } else {
-            $this->public = config('license.public');
+            $this->public = config('license.public', '');
         }
         try {
             $this->setPrivate($this->private);
