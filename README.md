@@ -4,7 +4,6 @@
     - 查询是授权码
     - 生成 RSA 公私钥
 - 测试环境：Laravel 8.0+
-- 最后更新时间：2024年05月16日
 
 ## 安装
 
@@ -48,8 +47,8 @@ dd(License::getLicense('LICENSE_CODE', 'PUBLIC_PEM_CODE'));
     "issuedTime" => "2024-05-14 16:30:00",
     "notBefore" => "2024-05-01 00:00:00",
     "notAfter" => "2025-04-30 23:59:59",
-    "customerInfo" => "阿里巴巴集团",
-    "projectName" => "项目名称",
+    "customerInfo" => "XXX公司",
+    "projectName" => "XXX项目名称",
     "valid" => true
 ];
 // ...

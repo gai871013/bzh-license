@@ -11,13 +11,11 @@
 
 return [
     // 应用id
-    'appid'   => 'domain.test',
+    'appid'   => env('LICENSE_APPID', 'domain.test'),
     // 公钥证书 支持路径&证书字符串
     'public'  => storage_path('cert/public.pem'),
-    // 私钥证书 支持路径&证书字符串
-    'private' => storage_path('cert/private.pem'),
     // 授权证书
-    'license' => '',
+    'key' => env('LICENSE_KEY', ''),
     // 授权信息字段
     'field'   => [
         'appid'          => true,   // 应用id

@@ -11,6 +11,7 @@ namespace Gai871013\License;
 
 use Gai871013\License\Exceptions\Exception;
 use Gai871013\License\Exceptions\InvalidArgumentException;
+use Random\RandomException;
 
 class License
 {
@@ -92,6 +93,7 @@ class License
      * @param string $private
      * @return string
      * @throws InvalidArgumentException
+     * @throws RandomException
      */
     public function generate(array $data, string $private = ''): string
     {
