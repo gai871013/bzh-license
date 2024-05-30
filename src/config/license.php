@@ -25,6 +25,7 @@ return [
         'customerInfo'   => true,   // 公司名称
         'projectName'    => true,   // 项目名称
         'projectManager' => true,   // 项目经理信息
+        'projectContact' => false,  // 项目经理联系方式
         'serverName'     => true,   // 服务商名称
     ]
 ];
