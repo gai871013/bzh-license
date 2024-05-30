@@ -11,13 +11,13 @@
 
 return [
     // 应用id
-    'appid'   => env('LICENSE_APPID', 'domain.test'),
+    'appid'  => env('LICENSE_APPID', 'domain.test'),
     // 公钥证书 支持路径&证书字符串
-    'public'  => storage_path('cert/public.pem'),
+    'public' => storage_path('cert/public.pem'),
     // 授权证书
-    'key' => env('LICENSE_KEY', ''),
+    'key'    => env('LICENSE_KEY', ''),
     // 授权信息字段
-    'field'   => [
+    'field'  => [
         'appid'          => true,   // 应用id
         'issuedTime'     => true,   // 发布时间
         'notBefore'      => true,   // 开始时间
@@ -25,5 +25,6 @@ return [
         'customerInfo'   => true,   // 公司名称
         'projectName'    => true,   // 项目名称
         'projectManager' => true,   // 项目经理信息
+        'serverName'     => true,   // 服务商名称
     ]
 ];
