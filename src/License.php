@@ -47,7 +47,7 @@ class License
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setPrivate($private): static
+    public function setPrivate($private)
     {
         if (file_exists($private)) {
             $this->private = file_get_contents($private);
@@ -70,7 +70,7 @@ class License
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function setPublic($public): static
+    public function setPublic($public)
     {
         if (file_exists($public)) {
             $this->public = file_get_contents($public);
